@@ -1,0 +1,55 @@
+@CHARSET "UTF-8";
+
+.picStyle {
+	width: 100px;
+	height: 100px;
+	display: inline-table;
+}
+
+.d_container input[type="file"] {
+	font-size: 82px;
+	opacity: 0;
+	position: absolute;
+	margin-top: -110px;
+	width: 100px;
+	cursor: pointer;
+}
+
+#myHeadPic a {
+	display: inline-block !important;
+	height: 101px !important;
+	overflow: hidden !important;
+	position: relative !important;
+	width: 116px !important;
+}
+
+a {
+	color: #333 !important;
+	text-decoration: none !important;
+}
+/* =====================================Mulit Photo Upload CSS===================================== */
+.picLayout {
+	margin-top: 5px;
+	margin-left: 5px;
+}
+
+.d_circle {
+	width: 20px;
+	height: 20px;
+	border-radius: 10px;
+	text-align: center;
+	vertical-align: middle;
+	top: 5px;
+	left: 5px;
+	position: absolute;
+	background-color: rgba(255, 0, 0, 1);
+	cursor: pointer;
+}
+
+.d_container {
+	position: relative;
+	padding-left: 10px;
+	padding-right: 4px;
+	padding-top: 10px;
+	float: left;
+}
