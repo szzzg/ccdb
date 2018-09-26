@@ -1,7 +1,10 @@
 package com.movitech.ws;
 
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.List;
 
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -9,7 +12,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.movitech.bean.UserBean;
+import com.movitech.util.BaseEncryption;
 
+import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 /**
@@ -25,9 +30,80 @@ import net.sf.json.JSONObject;
 @RestController
 @RequestMapping("/api")
 public class RestfulApi {
+	@CrossOrigin
 	@RequestMapping(value = "/sayHi/{token}", method = RequestMethod.GET, produces = "text/html;charset=UTF-8")
 	public String sayHi(@PathVariable String token) {
 		return "this is " + token;
+	}
+
+//	@RequestMapping(value = "/tableList", method = RequestMethod.GET, produces = "text/html;charset=UTF-8")
+//	public String tableList() {
+//		List<Student> stuList = new ArrayList<Student>();
+//		Student s1 = new Student();
+//		s1.setName("张三");
+//		s1.setSex("男");
+//		s1.setAge(28);
+//		stuList.add(s1);
+//		Student s2 = new Student();
+//		s2.setName("李四");
+//		s2.setSex("女");
+//		s2.setAge(29);
+//		stuList.add(s2);
+//		return JSONArray.fromObject(stuList).toString();
+//	}
+
+	@RequestMapping(value = "/tableList", method = RequestMethod.GET, produces = "application/json; charset=UTF-8")
+	public JSONArray tableList() {
+		List<Student> stuList = new ArrayList<Student>();
+		Student s1 = new Student();
+		s1.setName("张三");
+		s1.setSex("男");
+		s1.setAge(28);
+		stuList.add(s1);
+		Student s2 = new Student();
+		s2.setName("李四");
+		s2.setSex("女");
+		s2.setAge(29);
+		stuList.add(s2);
+		JSONArray jsonObj = JSONArray.fromObject(stuList);
+		return jsonObj;
+	}
+
+	/**
+	 * 内部类(用于数据绑定)
+	 * 
+	 * @author 周志刚
+	 *
+	 */
+	public class Student {
+		private String name;
+		private String sex;
+		private int age;
+
+		public String getName() {
+			return name;
+		}
+
+		public void setName(String name) {
+			this.name = name;
+		}
+
+		public String getSex() {
+			return sex;
+		}
+
+		public void setSex(String sex) {
+			this.sex = sex;
+		}
+
+		public int getAge() {
+			return age;
+		}
+
+		public void setAge(int age) {
+			this.age = age;
+		}
+
 	}
 
 	@RequestMapping(value = "/sayHello/{token}", method = RequestMethod.POST, produces = "text/html;charset=UTF-8")
@@ -50,9 +126,20 @@ public class RestfulApi {
 		return token;
 	}
 
+	@RequestMapping(value = "/receiveJsonRtJson/{token}", method = RequestMethod.POST)
+	public JSONObject receiveJsonRtJson(@PathVariable String token) {
+		JSONObject jsonObj = new JSONObject();
+		jsonObj.put("success", true);
+		jsonObj.put("res", token);
+		return jsonObj;
+	}
+
 	@RequestMapping(value = "/receiveJson/{token}", method = RequestMethod.POST, produces = "text/html;charset=UTF-8")
 	public String receiveJson(@PathVariable String token, @RequestBody JSONObject jsonObj) {
-		return token + ">>>>" + jsonObj;
+		String md5Str = BaseEncryption.MD5Encode(jsonObj.toString() + "NeocateWechat03");
+		System.out.println(md5Str);
+		System.out.println(jsonObj);
+		return token + ">>>>" + md5Str;
 	}
 
 	/**
@@ -101,7 +188,12 @@ public class RestfulApi {
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}
-		return token + ">>>>" + username + "张三";
+
+		String md5Str = BaseEncryption.MD5Encode(username + "NeocateWechat03");
+		System.out.println(md5Str);
+		System.out.println(username);
+//		return token + ">>>>" + md5Str + "张三";
+		return md5Str;
 	}
 
 	/**
