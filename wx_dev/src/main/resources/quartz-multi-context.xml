@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="
+            http://www.springframework.org/schema/beans
+            http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
+            http://www.springframework.org/schema/context
+            http://www.springframework.org/schema/context/spring-context-4.2.xsd
+            http://www.springframework.org/schema/tx/
+            http://www.springframework.org/schema/tx/spring-tx-4.2.xsd">
+
+	<context:component-scan base-package="com.wx.dev.quartz" />
+	<context:annotation-config />
+
+	<!-- 启动触发器的配置开始 -->
+	<bean name="startQuertz" lazy-init="false" autowire="no"
+		class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+		<property name="triggers">
+			<list>
+				<ref bean="cronTrigger_1" />
+				<ref bean="cronTrigger_2" />
+				<ref bean="cronTrigger_3" />
+				<ref bean="cronTrigger_4" />
+			</list>
+		</property>
+	</bean>
+	<!-- 启动触发器的配置结束 -->
+
+	<!-- quartz-2.x的配置 -->
+	<bean id="cronTrigger_1"
+		class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail" ref="jobDetail_1" />
+		<property name="cronExpression">
+			<value>0 0/1 * * * ? </value>
+		</property>
+	</bean>
+	<bean id="cronTrigger_2"
+		class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail" ref="jobDetail_2" />
+		<property name="cronExpression">
+			<!-- <value>0 0 0/1 * * ?</value> -->
+			<value>0 7 18 * * ?</value>
+		</property>
+	</bean>
+	<bean id="cronTrigger_3"
+		class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail" ref="jobDetail_3" />
+		<property name="cronExpression">
+			<!-- <value>0 0 0 1/1 * ?</value> -->
+			<value>30 06 14 * * ?</value>
+		</property>
+	</bean>
+	<bean id="cronTrigger_4"
+		class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail" ref="jobDetail_4" />
+		<property name="cronExpression">
+			<value>0 10 14 * * ?</value>
+			<!-- <value>0 0 1 1/1 * ?</value> -->
+		</property>
+	</bean>
+
+
+	<!-- 调度的配置结束 -->
+
+	<!-- 多个job的配置开始 -->
+	<bean id="jobDetail_1"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="myJob" />
+		<property name="targetMethod" value="work" />
+	</bean>
+	<bean id="jobDetail_2"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="wxRefreshAccessTokenJob" />
+		<property name="targetMethod" value="operat" />
+	</bean>
+	<bean id="jobDetail_3"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="wxDeptJob" />
+		<property name="targetMethod" value="syncDept" />
+	</bean>
+	<bean id="jobDetail_4"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="wxDeptJob" />
+		<property name="targetMethod" value="delDept" />
+	</bean>
+	<!-- job的配置结束 -->
+</beans>

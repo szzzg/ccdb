@@ -1,0 +1,7 @@
+你好，$userName:
+#foreach($online in $onlineData)
+<a href="$online">$online</a>
+#end
+#foreach($obj in $ObjData)
+<a href="$obj.downloadUrl">$obj.name</a>
+#end
