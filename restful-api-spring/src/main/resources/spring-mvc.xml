@@ -22,7 +22,7 @@
 		<property name="suffix" value=".jsp" />
 	</bean>
 
-		<mvc:interceptors>
+	<mvc:interceptors>
 		<mvc:interceptor>
 			<mvc:mapping path="/api/**" />
 			<bean class="com.movitech.interceptor.CrossOriginInterceptor" />

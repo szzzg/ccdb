@@ -12,10 +12,16 @@
             http://www.springframework.org/schema/tx/
             http://www.springframework.org/schema/tx/spring-tx-4.2.xsd">
 
+	<mvc:annotation-driven />
+
 	<mvc:interceptors>
 		<mvc:interceptor>
 			<mvc:mapping path="/demo/**" />
 			<bean class="com.wx.dev.interceptor.WXQiYeInterceptor" />
+		</mvc:interceptor>
+		<mvc:interceptor>
+			<mvc:mapping path="/demo/**" />
+			<bean class="com.wx.dev.interceptor.LoginInterceptor" />
 		</mvc:interceptor>
 	</mvc:interceptors>
 

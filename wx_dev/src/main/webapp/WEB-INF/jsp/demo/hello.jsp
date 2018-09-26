@@ -16,6 +16,6 @@
 <title>Insert title here</title>
 </head>
 <body>
-${el_number}
+${el_number}|${SESSION_USER}
 </body>
 </html>
