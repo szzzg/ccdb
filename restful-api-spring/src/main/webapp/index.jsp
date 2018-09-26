@@ -7,8 +7,9 @@
 <title>Vue 测试实例 - 菜鸟教程(runoob.com)</title>
 <script src="https://cdn.bootcss.com/vue/2.4.2/vue.min.js"></script>
 <script src="https://cdn.bootcss.com/vue-router/2.7.0/vue-router.min.js"></script>
-<script
-	src="https://cdn.bootcss.com/vue-resource/1.5.1/vue-resource.min.js"></script>
+<script src="https://cdn.bootcss.com/vue-resource/1.5.1/vue-resource.min.js"></script>
+<script src="https://cdn.bootcss.com/axios/0.18.0/axios.min.js"></script>
+<script src="https://cdn.bootcss.com/jquery/2.2.0/jquery.min.js"></script>
 </head>
 <body>
 
@@ -17,8 +18,9 @@
 		<button @click="ajaxCallGetMethod">{{getBtn}}</button>
 		<button @click="ajaxCallPostMethod">{{postBtn}}</button>
 		<button @click="ajaxCallPostMethod2">{{postBtn}}</button>
-		<button @click="ajaxCallPostMethod3">{{postBtnReturnJSONP}}</button>
 		<button @click="ajaxCallGetStudents">{{getBtnReturnLIST}}</button>
+		<button @click="ajaxAxiosCallGetStudents">{{getAxiosBtnReturnLIST}}</button>
+		<button @click="ajaxCallPostMethod3">{{postBtnReturnJSONP}}</button>
 
 		<div v-if="resGETMessage != null">{{resGETMessage}}</div>
 		<div v-if="resPOSTGETMessage != null">{{resPOSTGETMessage}}</div>
@@ -51,8 +53,9 @@
 			data : {
 				getBtn : 'ajax调用 GET请求',
 				postBtn : 'ajax调用 POST请求',
-				postBtnReturnJSONP : 'ajax调用 POST请求返回JSONP',
 				getBtnReturnLIST : 'ajax请求获取表格列表数据',
+				getAxiosBtnReturnLIST : 'Axiosajax请求获取表格列表数据',
+				postBtnReturnJSONP : 'ajax调用 POST请求返回JSONP',
 				resGETMessage : null,
 				resPOSTGETMessage : null,
 				resPOSTGETMessage2 : null,
@@ -61,6 +64,7 @@
 				resListData :[]
 			},
 			methods : {
+				//vue-resource 库请求
 				ajaxCallGetMethod : function() {
 					// => ES6简写语法
 					this.$http.get("http://localhost:8080/restful-api-spring/api/sayHi/hello").then(res => {
@@ -83,24 +87,32 @@
 						this.resPOSTGETMessage2 = res.body;
 					})
 				},
-				ajaxCallPostMethod3 : function() {
-					let options ={
-						jsonp: 'callback' // 设置回调函数的参数的一个名字，默认是话是callback
-					};
-					this.$http.jsonp("http://localhost:8080/restful-api-spring/api/sayHi/周志刚" , options).then(function(res) {
-						console.log(res.resDate.s);
-						this.resPOSTGETMessage3 = res.resDate.s;
-						//this.$set('resData',res);
-					})
-/* 					this.$http.jsonp('https://sp0.baidu.com/5a1Fazu8AA54nxGko9WTAnF6hhy/su',{params:{ wd:'a' },jsonp:'cb'}).then(resp => {
-						console.log(resp.data.s);
-					}); */
-				},
 				ajaxCallGetStudents : function() {
 					this.$http.get("http://localhost:8080/restful-api-spring/api/tableList").then(res => {
 						console.log(res.body);
 						this.resListData = res.body;
 					})
+				},
+				//Axios 方式请求
+				ajaxAxiosCallGetStudents : function() {
+					axios.get("http://localhost:8080/restful-api-spring/api/tableList").then(res => {
+						console.log(res.data);
+						this.resListData = res.data;
+					})
+				},
+				ajaxCallPostMethod3 : function() {
+					let options ={
+						jsonp: '_callback' // 设置回调函数的参数的一个名字，默认是话是callback
+					};
+					this.$http.jsonp("http://localhost:8080/restful-api-spring/api/sayHi/周志刚" , options).then(function(res) {
+						console.log(res);
+						this.resPOSTGETMessage3 = res.body;
+					})
+
+
+/* 					this.$http.jsonp('https://sp0.baidu.com/5a1Fazu8AA54nxGko9WTAnF6hhy/su',{params:{ wd:'a' },jsonp:'cb'}).then(resp => {
+						console.log(resp.data.s);
+					}); */
 				}
 			}
 		})

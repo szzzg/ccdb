@@ -26,14 +26,21 @@ import net.sf.json.JSONObject;
  *               2.post请求参数必须@RequestBody接收获取，否则获取不到
  *               3.<mvc:annotation-driven />注解驱动
  *               自动开启DefaultAnnotationHandlerMapping、AnnotationMethodHandlerAdapter
+ *               -----------------------------------------------------------------------
+ *               @CrossOrigin可以解决跨域请求的异常。
+ *               CrossOriginFilter类和CrossOriginInterceptor类都可以解决跨域
+ *               或者页面端JSONP格式返回也可以解决跨域问题
  */
 @RestController
 @RequestMapping("/api")
 public class RestfulApi {
+
 	@CrossOrigin
 	@RequestMapping(value = "/sayHi/{token}", method = RequestMethod.GET, produces = "text/html;charset=UTF-8")
-	public String sayHi(@PathVariable String token) {
-		return "this is " + token;
+	public String sayHi(@PathVariable String token, String _callback) {
+		System.out.println(_callback);
+		String result =  "{'token':'" + token + "'}";
+		return _callback+"("+result+")";
 	}
 
 //	@RequestMapping(value = "/tableList", method = RequestMethod.GET, produces = "text/html;charset=UTF-8")
@@ -52,6 +59,7 @@ public class RestfulApi {
 //		return JSONArray.fromObject(stuList).toString();
 //	}
 
+	@CrossOrigin
 	@RequestMapping(value = "/tableList", method = RequestMethod.GET, produces = "application/json; charset=UTF-8")
 	public JSONArray tableList() {
 		List<Student> stuList = new ArrayList<Student>();
