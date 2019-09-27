@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import com.movitech.annotation.service.AnnService;
+import com.movitech.bean.UserBean;
 import com.movitech.service.MyService;
 
 /**
@@ -32,6 +34,9 @@ public class TestAOPCace {
 //	@Resource
 	private MyService myService;
 
+	@Autowired
+	private AnnService annService;
+
 	@Test
 	public void testAopService() {
 
@@ -39,5 +44,13 @@ public class TestAOPCace {
 
 		System.out.println(myService.recordOrder("笔记本电脑", 66));
 
+	}
+
+	@Test
+	public void testAopAnnotationService() {
+
+		annService.annotationService("brain");
+
+		annService.annotationTypeService(new UserBean("张三", "123456"));
 	}
 }

@@ -28,4 +28,14 @@ public class UserBean {
 		this.password = password;
 	}
 
+	public UserBean(String username, String password) {
+		super();
+		this.username = username;
+		this.password = password;
+	}
+
+	public UserBean() {
+		super();
+	}
+
 }

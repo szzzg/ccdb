@@ -15,8 +15,8 @@ import org.springframework.stereotype.Component;
  * @ClassName: AnnotationAOP
  * @Description: TODO
  */
-@Component
-@Aspect
+//@Component
+//@Aspect
 public class AnnotationAOP {
 
 	@Pointcut("execution(* com.movitech.service.*.*(..))")
